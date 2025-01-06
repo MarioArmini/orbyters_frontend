@@ -4,11 +4,9 @@ import {
     Box,
     Typography,
     Container,
-    AppBar,
-    Toolbar,
     Paper,
     Alert,
-    CircularProgress
+    CircularProgress,
 } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import React, { useState } from "react";
@@ -17,14 +15,7 @@ import { SignUpDto } from "../../dtos/auth/signUpDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    surname: Yup.string().required("Surname is required"),
-    email: Yup.string().email("Invalid email format").required("Email is required"),
-    password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
-});
-
-export const SignUp = () => {
+export const SignUp = ({ currentTheme, t }) => {
     const { signUp } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
@@ -67,75 +58,98 @@ export const SignUp = () => {
         }
     };
 
+    const validationSchema = Yup.object({
+        name: Yup.string().required(t("nameValidation")),
+        surname: Yup.string().required(t("surnameValidation")),
+        email: Yup.string().email(t("emailFormatValidation")).required(t("emailValidation")),
+        password: Yup.string().min(8, t("passwordLengthValidation")).required(t("passwordValidation")),
+    });
+
     return (
-        <Container maxWidth="sm">
-            <Paper elevation={3} sx={{ p: 3, mt: 5 }}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    Register
-                </Typography>
-                {error && <Alert severity="error">{error}</Alert>}
-                <form onSubmit={handleSubmit}>
-                    <TextField
-                        fullWidth
-                        label="Name"
-                        margin="normal"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        error={!!formErrors.name}
-                        helperText={formErrors.name}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Surname"
-                        margin="normal"
-                        name="surname"
-                        value={formData.surname}
-                        onChange={handleChange}
-                        error={!!formErrors.surname}
-                        helperText={formErrors.surname}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        type="email"
-                        margin="normal"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        error={!!formErrors.email}
-                        helperText={formErrors.email}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        margin="normal"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        error={!!formErrors.password}
-                        helperText={formErrors.password}
-                    />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        sx={{ mt: 2 }}
-                    >
-                        {loading ? (
-                            <CircularProgress size={24} sx={{ color: 'white' }} />
-                        ) : (
-                            "Register"
-                        )}
-                        Register
-                    </Button>
-                </form>
-                <Box textAlign="center" sx={{ mt: 2 }}>
-                    <Link to="/login">Already have an account? Login</Link>
-                </Box>
-            </Paper>
-        </Container>
+        <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <Container maxWidth="sm" sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+                <Paper
+                    elevation={6}
+                    sx={{
+                        p: 4,
+                        width: "100%",
+                        animation: "fadeIn 1s",
+                        "@keyframes fadeIn": {
+                            from: { opacity: 0 },
+                            to: { opacity: 1 },
+                        },
+                    }}
+                >
+                    <Typography variant="h4" align="center" gutterBottom>
+                        {t("signUpTitle")}
+                    </Typography>
+
+                    {error && <Alert severity="error">{error}</Alert>}
+
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            fullWidth
+                            label={t("name")}
+                            margin="normal"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            error={!!formErrors.name}
+                            helperText={formErrors.name}
+                        />
+                        <TextField
+                            fullWidth
+                            label={t("surname")}
+                            margin="normal"
+                            name="surname"
+                            value={formData.surname}
+                            onChange={handleChange}
+                            error={!!formErrors.surname}
+                            helperText={formErrors.surname}
+                        />
+                        <TextField
+                            fullWidth
+                            label={t("email")}
+                            type="email"
+                            margin="normal"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            error={!!formErrors.email}
+                            helperText={formErrors.email}
+                        />
+                        <TextField
+                            fullWidth
+                            label={t("password")}
+                            type="password"
+                            margin="normal"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            error={!!formErrors.password}
+                            helperText={formErrors.password}
+                        />
+
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            sx={{ mt: 2 }}
+                        >
+                            {loading ? (
+                                <CircularProgress size={24} sx={{ color: "white" }} />
+                            ) : (
+                                t("signUpBtn")
+                            )}
+                        </Button>
+                    </form>
+
+                    <Box textAlign="center" sx={{ mt: 2 }}>
+                        <Link to="/login">{t("redirectToLoginText")}</Link>
+                    </Box>
+                </Paper>
+            </Container>
+        </Box>
     );
 };
