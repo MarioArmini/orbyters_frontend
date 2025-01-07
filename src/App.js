@@ -21,20 +21,13 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import './i18n/config'
 import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { getTheme } from './Theme';
 
 function App() {
 
   const [themeMode, setThemeMode] = useState("light");
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: themeMode,
-        },
-      }),
-    [themeMode]
-  );
+  const theme = useMemo(() => getTheme(themeMode), [themeMode]);
 
   const toggleTheme = () => {
     setThemeMode((prev) => (prev === "light" ? "dark" : "light"));
@@ -53,12 +46,15 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <Router>
-          <AppBar position="static">
+          <AppBar position="fixed">
             <Toolbar>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <img src={logo} alt="Logo" style={{ width: 50, height: 50 }} />
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+                <img
+                  src={logo}
+                  alt="Logo"
+                  style={{ width: 50, height: 50, objectFit: 'contain', display: 'block' }}
+                />
               </Box>
-
               <Box sx={{ flexGrow: 1 }} />
               <FormControl size="small">
                 <InputLabel>{t("language")}</InputLabel>

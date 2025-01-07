@@ -8,12 +8,13 @@ import {
   Paper,
   Alert,
 } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { LoginDto } from "../../dtos/auth/loginDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { Link } from "@mui/material";
 
 export const Login = ({ currentTheme, t }) => {
   const { login } = useAuth();
@@ -121,7 +122,7 @@ export const Login = ({ currentTheme, t }) => {
           </form>
 
           <Box textAlign="center" sx={{ mt: 2 }}>
-            <Link to="/signup">{t("redirectToSignUpText")}</Link>
+            <Link component={RouterLink} to="/signup">{t("redirectToSignUpText")}</Link>
           </Box>
         </Paper>
       </Container>

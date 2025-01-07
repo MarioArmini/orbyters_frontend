@@ -8,12 +8,13 @@ import {
     Alert,
     CircularProgress,
 } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { SignUpDto } from "../../dtos/auth/signUpDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { Link } from "@mui/material";
 
 export const SignUp = ({ currentTheme, t }) => {
     const { signUp } = useAuth();
@@ -170,7 +171,7 @@ export const SignUp = ({ currentTheme, t }) => {
                         </form>
 
                         <Box textAlign="center" sx={{ mt: 2 }}>
-                            <Link to="/login">{t("redirectToLoginText")}</Link>
+                            <Link component={RouterLink} to="/login">{t("redirectToLoginText")}</Link>
                         </Box>
                     </Box>
                 </Paper>
