@@ -1,43 +1,86 @@
 import {
-    TextField,
-    Button,
-    Box,
-    Typography,
-    Container,
-    AppBar,
-    Toolbar,
-    Paper,
-    Alert,
-  } from "@mui/material";
-  import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
-  import { useAuth } from "../../context/AuthContext";
+  Button,
+  Box,
+  Typography,
+  Container,
+  AppBar,
+  Toolbar,
+  Paper,
+  Grid2,
+  Avatar,
+} from "@mui/material";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export const Profile = () => {
-    const { user, logout } = useAuth();
-  
-    if (!user) {
-      return <Navigate to="/login" />;
-    }
-  
-    return (
-      <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ p: 3, mt: 5 }}>
-          <Typography variant="h5" align="center">
-            Welcome, {user.name}
+  const { user, logout } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            User Profile
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Email: {user.Email}
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="md" sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Paper
+          elevation={6}
+          sx={{
+            width: "100%",
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <Avatar
+            sx={{ width: 100, height: 100, mb: 3, backgroundColor: "primary.main" }}
+          >
+            {user.name[0]}
+          </Avatar>
+
+          <Typography variant="h4" gutterBottom>
+            {user.name} {user.surname}
           </Typography>
+
+          <Grid2 container spacing={2} sx={{ mt: 2 }}>
+            <Grid2 item xs={12} md={6}>
+              <Typography variant="subtitle1" color="textSecondary">
+                Email
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                {user.email}
+              </Typography>
+            </Grid2>
+
+            <Grid2 item xs={12} md={6}>
+              <Typography variant="subtitle1" color="textSecondary">
+                Roles
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                {user.roles.map(role => role.Name).join(", ") || "No roles assigned"}
+              </Typography>
+            </Grid2>
+          </Grid2>
+
           <Button
-            fullWidth
             variant="contained"
             color="secondary"
             onClick={logout}
-            sx={{ mt: 3 }}
+            sx={{ mt: 4 }}
           >
             Logout
           </Button>
         </Paper>
       </Container>
-    );
-  };
+    </Box>
+  );
+};

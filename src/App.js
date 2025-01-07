@@ -55,9 +55,11 @@ function App() {
         <Router>
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                Orbyters
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <img src={logo} alt="Logo" style={{ width: 50, height: 50 }} />
+              </Box>
+
+              <Box sx={{ flexGrow: 1 }} />
               <FormControl size="small">
                 <InputLabel>{t("language")}</InputLabel>
                 <Select

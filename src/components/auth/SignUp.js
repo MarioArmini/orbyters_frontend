@@ -66,13 +66,14 @@ export const SignUp = ({ currentTheme, t }) => {
     });
 
     return (
-        <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-            <Container maxWidth="sm" sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+        <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Container maxWidth="md">
                 <Paper
                     elevation={6}
                     sx={{
-                        p: 4,
-                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: "column", md: "row" },
+                        overflow: "hidden",
                         animation: "fadeIn 1s",
                         "@keyframes fadeIn": {
                             from: { opacity: 0 },
@@ -80,73 +81,97 @@ export const SignUp = ({ currentTheme, t }) => {
                         },
                     }}
                 >
-                    <Typography variant="h4" align="center" gutterBottom>
-                        {t("signUpTitle")}
-                    </Typography>
+                    {/* Left column */}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            backgroundColor: currentTheme === "dark" ? "#333" : "#f5f5f5",
+                            color: currentTheme === "dark" ? "#fff" : "#000",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            p: 4,
+                        }}
+                    >
+                        <Typography variant="h4" gutterBottom>
+                            {t("welcomeTitle")}
+                        </Typography>
+                        <Typography variant="body1" align="center">
+                            {t("signUpSubtitle")}
+                        </Typography>
+                    </Box>
 
-                    {error && <Alert severity="error">{error}</Alert>}
+                    {/* Right column */}
+                    <Box sx={{ flex: 1, p: 4 }}>
+                        <Typography variant="h4" align="center" gutterBottom>
+                            {t("signUpTitle")}
+                        </Typography>
 
-                    <form onSubmit={handleSubmit}>
-                        <TextField
-                            fullWidth
-                            label={t("name")}
-                            margin="normal"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            error={!!formErrors.name}
-                            helperText={formErrors.name}
-                        />
-                        <TextField
-                            fullWidth
-                            label={t("surname")}
-                            margin="normal"
-                            name="surname"
-                            value={formData.surname}
-                            onChange={handleChange}
-                            error={!!formErrors.surname}
-                            helperText={formErrors.surname}
-                        />
-                        <TextField
-                            fullWidth
-                            label={t("email")}
-                            type="email"
-                            margin="normal"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            error={!!formErrors.email}
-                            helperText={formErrors.email}
-                        />
-                        <TextField
-                            fullWidth
-                            label={t("password")}
-                            type="password"
-                            margin="normal"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            error={!!formErrors.password}
-                            helperText={formErrors.password}
-                        />
+                        {error && <Alert severity="error">{error}</Alert>}
 
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            sx={{ mt: 2 }}
-                        >
-                            {loading ? (
-                                <CircularProgress size={24} sx={{ color: "white" }} />
-                            ) : (
-                                t("signUpBtn")
-                            )}
-                        </Button>
-                    </form>
+                        <form onSubmit={handleSubmit}>
+                            <TextField
+                                fullWidth
+                                label={t("name")}
+                                margin="normal"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                error={!!formErrors.name}
+                                helperText={formErrors.name}
+                            />
+                            <TextField
+                                fullWidth
+                                label={t("surname")}
+                                margin="normal"
+                                name="surname"
+                                value={formData.surname}
+                                onChange={handleChange}
+                                error={!!formErrors.surname}
+                                helperText={formErrors.surname}
+                            />
+                            <TextField
+                                fullWidth
+                                label={t("email")}
+                                type="email"
+                                margin="normal"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                error={!!formErrors.email}
+                                helperText={formErrors.email}
+                            />
+                            <TextField
+                                fullWidth
+                                label={t("password")}
+                                type="password"
+                                margin="normal"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                error={!!formErrors.password}
+                                helperText={formErrors.password}
+                            />
 
-                    <Box textAlign="center" sx={{ mt: 2 }}>
-                        <Link to="/login">{t("redirectToLoginText")}</Link>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                sx={{ mt: 2 }}
+                            >
+                                {loading ? (
+                                    <CircularProgress size={24} sx={{ color: "white" }} />
+                                ) : (
+                                    t("signUpBtn")
+                                )}
+                            </Button>
+                        </form>
+
+                        <Box textAlign="center" sx={{ mt: 2 }}>
+                            <Link to="/login">{t("redirectToLoginText")}</Link>
+                        </Box>
                     </Box>
                 </Paper>
             </Container>
