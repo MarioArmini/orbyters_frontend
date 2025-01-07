@@ -1,4 +1,4 @@
-export const SignUpDto = ({ email, password }) => ({
+export const LoginDto = ({ email, password }) => ({
     email,
     password
   });

@@ -26,7 +26,7 @@ export const Profile = () => {
             Welcome, {user.name}
           </Typography>
           <Typography variant="body1" sx={{ mt: 2 }}>
-            Email: {user.email}
+            Email: {user.Email}
           </Typography>
           <Button
             fullWidth

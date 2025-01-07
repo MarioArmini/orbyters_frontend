@@ -4,8 +4,7 @@ import {
   Box,
   Typography,
   Container,
-  AppBar,
-  Toolbar,
+  CircularProgress,
   Paper,
   Alert,
 } from "@mui/material";
@@ -16,46 +15,96 @@ import { LoginDto } from "../../dtos/auth/loginDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-export const Login = () => {
-    const { login } = useAuth();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        await login(email, password);
-        setError("");
-      } catch (err) {
+export const Login = ({ currentTheme, t }) => {
+  const { login } = useAuth();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setFormErrors({});
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      const loginDto = LoginDto(formData);
+      await login(loginDto);
+      setLoading(false)
+      navigate("/profile")
+    } catch (err) {
+      setLoading(false)
+      if (err.name === "ValidationError") {
+        const errors = err.inner.reduce((acc, curr) => {
+          acc[curr.path] = curr.message;
+          return acc;
+        }, {});
+        setFormErrors(errors);
+      } else {
         setError(err.message);
       }
-    };
-  
-    return (
-      <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ p: 3, mt: 5 }}>
-          <Typography variant="h5" align="center" gutterBottom>
-            Login
+    }
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email(t("emailFormatValidation")).required(t("emailValidation")),
+    password: Yup.string().min(8, t("passwordLengthValidation")).required(t("passwordValidation")),
+  });
+
+  return (
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      <Container maxWidth="sm" sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+        <Paper
+          elevation={6}
+          sx={{
+            p: 4,
+            width: "100%",
+            animation: "fadeIn 1s",
+            "@keyframes fadeIn": {
+              from: { opacity: 0 },
+              to: { opacity: 1 },
+            },
+          }}
+        >
+          <Typography variant="h4" align="center" gutterBottom>
+            {t("loginTitle")}
           </Typography>
+
           {error && <Alert severity="error">{error}</Alert>}
+
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Email"
+              label={t("email")}
               type="email"
               margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={!!formErrors.email}
+              helperText={formErrors.email}
             />
             <TextField
               fullWidth
-              label="Password"
+              label={t("password")}
               type="password"
               margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              error={!!formErrors.password}
+              helperText={formErrors.password}
             />
+
             <Button
               fullWidth
               variant="contained"
@@ -63,13 +112,19 @@ export const Login = () => {
               type="submit"
               sx={{ mt: 2 }}
             >
-              Login
+              {loading ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                t("loginBtn")
+              )}
             </Button>
           </form>
+
           <Box textAlign="center" sx={{ mt: 2 }}>
-            <Link to="/register">Don't have an account? Register</Link>
+            <Link to="/signup">{t("redirectToSignUpText")}</Link>
           </Box>
         </Paper>
       </Container>
-    );
-  };
+    </Box>
+  );
+};

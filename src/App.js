@@ -77,8 +77,8 @@ function App() {
             </Toolbar>
           </AppBar>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<SignUp currentTheme={themeMode} t={t} />} />
+            <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
+            <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>

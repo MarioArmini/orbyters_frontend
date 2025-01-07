@@ -7,8 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
   const [user, setUser] = useState(null);
 
-  const login = async (email, password) => {
-    const response = await fetch("/api/login", {
+  const login = async (loginDto) => {
+    const { email, password } = loginDto;
+    const response = await fetch(apiUrl + "/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
