@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import logoDark from './logo_dark.png';
+import logoLight from './logo_light.png'
 import './App.css';
 import {
   Typography,
@@ -11,7 +12,7 @@ import {
   Box,
   IconButton
 } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
@@ -22,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import './i18n/config'
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { getTheme } from './Theme';
+import { Footer } from './components/footer/Footer'
 
 function App() {
 
@@ -49,11 +51,13 @@ function App() {
           <AppBar position="fixed">
             <Toolbar>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+              <Link to="/" style={{ textDecoration: 'none' }}>
                 <img
-                  src={logo}
+                  src={themeMode === 'dark' ? logoDark : logoLight}
                   alt="Logo"
                   style={{ width: 50, height: 50, objectFit: 'contain', display: 'block' }}
                 />
+                </Link>
               </Box>
               <Box sx={{ flexGrow: 1 }} />
               <FormControl size="small">
@@ -80,6 +84,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
+          <Footer />
         </Router>
       </AuthProvider>
     </ThemeProvider>

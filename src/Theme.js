@@ -7,23 +7,24 @@ export const getTheme = (themeMode) =>
             ...(themeMode === "dark"
                 ? {
                     primary: {
-                        main: "#00173d",
+                        main: "#06303E",
                     },
                     secondary: {
-                        main: "#00bcd4",
+                        main: "#06303E",
                     },
                     background: {
-                        default: "#00173d",
-                        paper: "#002855",
+                        default: "#06303E",
+                        paper: "#06303E",
                     },
                     text: {
                         primary: "#ffffff",
-                        secondary: "#00bcd4",
+                        secondary: "#06303E",
+                        footerText: "#cccccc",
                     },
                 }
                 : {
                     primary: {
-                        main: "#f5f5f5",
+                        main: "#ffffff",
                     },
                     secondary: {
                         main: "#1976d2",
@@ -35,6 +36,7 @@ export const getTheme = (themeMode) =>
                     text: {
                         primary: "#000000",
                         secondary: "#1976d2",
+                        footerText: "#555555",
                     },
                 }),
         },
@@ -80,6 +82,17 @@ export const getTheme = (themeMode) =>
                         textDecoration: "none",
                         "&:hover": {
                             textDecoration: "underline",
+                        },
+                    },
+                },
+            },
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        color: themeMode === "dark" ? "#ffffff" : "#000000",
+                        backgroundColor: themeMode === "dark" ? "#06303E" : "#ffffff",
+                        "&:hover": {
+                            backgroundColor: themeMode === "dark" ? "#002d40" : "#f0f0f0",
                         },
                     },
                 },

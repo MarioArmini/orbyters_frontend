@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -6,6 +6,29 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
   const [user, setUser] = useState(null);
+
+  const fetchUser = async () => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(apiUrl + "/auth/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        throw new Error("Failed to fetch user");
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      logout();
+    }
+  };
 
   const login = async (loginDto) => {
     const { email, password } = loginDto;
@@ -19,6 +42,7 @@ export const AuthProvider = ({ children }) => {
     if (response.ok) {
       setToken(data.token);
       setUser(data.user);
+      await fetchUser();
       localStorage.setItem("jwt", data.token);
     } else {
       throw new Error(data.message || "Login failed");
@@ -47,8 +71,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("jwt");
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signUp }}>
+    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );
