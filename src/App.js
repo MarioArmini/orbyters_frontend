@@ -26,13 +26,15 @@ import { getTheme } from './Theme';
 import { Footer } from './components/footer/Footer'
 
 function App() {
-
-  const [themeMode, setThemeMode] = useState("light");
-
+  const storedThemeMode = localStorage.getItem('themeMode');
+  const initialThemeMode = storedThemeMode ? storedThemeMode : "light";
+  const [themeMode, setThemeMode] = useState(initialThemeMode);
   const theme = useMemo(() => getTheme(themeMode), [themeMode]);
 
   const toggleTheme = () => {
-    setThemeMode((prev) => (prev === "light" ? "dark" : "light"));
+    const newThemeMode = themeMode === "light" ? "dark" : "light";
+    setThemeMode(newThemeMode);
+    localStorage.setItem('themeMode', newThemeMode);
   };
 
   const { i18n, t } = useTranslation();
