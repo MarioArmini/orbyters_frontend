@@ -68,6 +68,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (forgotPasswordDto) => {
+    const {email} = forgotPasswordDto;
+    const response = await fetch(apiUrl + "/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(response)
+    } else {
+      throw new Error(data.message || "Request failed");
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -79,7 +95,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser, loading }}>
+    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser, loading, forgotPassword }}>
       {children}
     </AuthContext.Provider>
   );

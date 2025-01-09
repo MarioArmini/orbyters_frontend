@@ -124,6 +124,9 @@ export const Login = ({ currentTheme, t }) => {
           <Box textAlign="center" sx={{ mt: 2 }}>
             <Link component={RouterLink} to="/signup">{t("redirectToSignUpText")}</Link>
           </Box>
+          <Box textAlign="center" sx={{ mt: 2 }}>
+            <Link component={RouterLink} to="/forgot-password">{t("redirectToForgotPasswordText")}</Link>
+          </Box>
         </Paper>
       </Container>
     </Box>

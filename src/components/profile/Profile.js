@@ -104,8 +104,9 @@ export const Profile = () => {
               width: 100,
               height: 100,
               mb: 3,
-              backgroundColor: theme.palette.secondary.main,
+              backgroundColor: theme.palette.background.main,
               fontSize: "2rem",
+              color: "text.accents"
             }}
           >
             {user.name[0]}
