@@ -6,10 +6,11 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("jwt") || null);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchUser = async () => {
     if (!token) return;
-
+    setLoading(true);
     try {
       const response = await fetch(apiUrl + "/auth/me", {
         method: "GET",
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching user:", error);
       logout();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser }}>
+    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

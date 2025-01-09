@@ -20,6 +20,7 @@ export const getTheme = (themeMode) =>
                         primary: "#ffffff",
                         secondary: "#06303E",
                         footerText: "#cccccc",
+                        accents: "#00bcd4",
                     },
                 }
                 : {
@@ -37,6 +38,7 @@ export const getTheme = (themeMode) =>
                         primary: "#000000",
                         secondary: "#1976d2",
                         footerText: "#555555",
+                        accents: "#06303E",
                     },
                 }),
         },
