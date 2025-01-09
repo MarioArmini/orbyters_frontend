@@ -24,6 +24,8 @@ import './i18n/config'
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { getTheme } from './Theme';
 import { Footer } from './components/footer/Footer'
+import { ForgotPassword } from './components/auth/ForgotPassword';
+import { ForgotPasswordConfirmation } from './components/auth/ForgotPasswordConfirmation';
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -85,6 +87,8 @@ function App() {
             <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
+            <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />}/>
           </Routes>
           <Footer />
         </Router>
