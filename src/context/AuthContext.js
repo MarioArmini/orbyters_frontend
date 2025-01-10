@@ -53,11 +53,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (signUpDto) => {
-    const { email, password, name, surname } = signUpDto;
+    const { email, password, confirmPassword, name, surname } = signUpDto;
     const response = await fetch(apiUrl + "/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name, surname }),
+      body: JSON.stringify({ email, password, confirmPassword, name, surname }),
     });
 
     const data = await response.json();
@@ -84,6 +84,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const resetPassword = async (resetPasswordDto) =>{
+    const { newPassword, confirmNewPassword, token } = resetPasswordDto;
+    const response = await fetch(apiUrl + "/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ confirmNewPassword, newPassword, token }),
+    });
+
+    const data = await response.json();
+    console.log(response.url)
+    if (response.ok) {
+      console.log(response)
+    } else {
+      throw new Error(data.message || "Request failed");
+    }
+  }
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -95,7 +112,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser, loading, forgotPassword }}>
+    <AuthContext.Provider value={{ token, user, login, logout, signUp, fetchUser, loading, forgotPassword, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );

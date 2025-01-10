@@ -18,6 +18,9 @@ export const Footer = () => {
                 color: theme.palette.text.footerText,
                 p: 4,
                 mt: 'auto',
+                '@media (max-width:600px)': {
+                    padding: 2,
+                },
             }}
         >
             <Container
@@ -56,4 +59,4 @@ export const Footer = () => {
             </Container>
         </Paper>
     );
-};  
+};

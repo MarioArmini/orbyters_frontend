@@ -7,6 +7,12 @@ import {
     Paper,
     Alert,
     CircularProgress,
+    IconButton,
+    InputAdornment,
+    OutlinedInput,
+    FormControl,
+    InputLabel,
+    FormHelperText
 } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
@@ -15,23 +21,36 @@ import { SignUpDto } from "../../dtos/auth/signUpDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Link } from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export const SignUp = ({ currentTheme, t }) => {
     const { signUp } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
+        confirmPassword: "",
         name: "",
         surname: "",
     });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
     };
 
     const handleSubmit = async (e) => {
@@ -64,6 +83,7 @@ export const SignUp = ({ currentTheme, t }) => {
         surname: Yup.string().required(t("surnameValidation")),
         email: Yup.string().email(t("emailFormatValidation")).required(t("emailValidation")),
         password: Yup.string().min(8, t("passwordLengthValidation")).required(t("passwordValidation")),
+        confirmPassword: Yup.string().min(8, t("passwordLengthValidation")).required(t("passwordValidation")),
     });
 
     return (
@@ -82,7 +102,6 @@ export const SignUp = ({ currentTheme, t }) => {
                         },
                     }}
                 >
-                    {/* Left column */}
                     <Box
                         sx={{
                             flex: 1,
@@ -103,7 +122,6 @@ export const SignUp = ({ currentTheme, t }) => {
                         </Typography>
                     </Box>
 
-                    {/* Right column */}
                     <Box sx={{ flex: 1, p: 4 }}>
                         <Typography variant="h4" align="center" gutterBottom>
                             {t("signUpTitle")}
@@ -143,17 +161,61 @@ export const SignUp = ({ currentTheme, t }) => {
                                 error={!!formErrors.email}
                                 helperText={formErrors.email}
                             />
-                            <TextField
-                                fullWidth
-                                label={t("password")}
-                                type="password"
-                                margin="normal"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                error={!!formErrors.password}
-                                helperText={formErrors.password}
-                            />
+                            <FormControl sx={{ mb:1, mt: 2, width: '100%' }} variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">{t("password")}</InputLabel>
+                                <OutlinedInput
+                                    fullWidth
+                                    label={t("password")}
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    error={!!formErrors.password}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label={
+                                                    showPassword ? 'hide the password' : 'display the password'
+                                                }
+                                                onClick={handleShowPassword}
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                                <FormHelperText sx={{ color: 'error.main' }}>
+                                    {formErrors.password || ""}
+                                </FormHelperText>
+                            </ FormControl>
+
+                            <FormControl sx={{ mb:1, mt: 2, width: '100%' }} variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">{t("confirmPassword")}</InputLabel>
+                                <OutlinedInput
+                                    fullWidth
+                                    label={t("confirmPassword")}
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    error={!!formErrors.confirmPassword}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label={
+                                                    showConfirmPassword ? 'hide the password' : 'display the password'
+                                                }
+                                                onClick={handleShowConfirmPassword}
+                                            >
+                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                                <FormHelperText sx={{ color: 'error.main' }}>
+                                    {formErrors.confirmPassword || ""}
+                                </FormHelperText>
+                            </ FormControl>
 
                             <Button
                                 fullWidth
@@ -176,6 +238,6 @@ export const SignUp = ({ currentTheme, t }) => {
                     </Box>
                 </Paper>
             </Container>
-        </Box>
+        </Box >
     );
 };

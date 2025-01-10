@@ -7,6 +7,12 @@ import {
   CircularProgress,
   Paper,
   Alert,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton
 } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
@@ -15,6 +21,8 @@ import { LoginDto } from "../../dtos/auth/loginDto";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Link } from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export const Login = ({ currentTheme, t }) => {
   const { login } = useAuth();
@@ -25,11 +33,16 @@ export const Login = ({ currentTheme, t }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
@@ -94,17 +107,33 @@ export const Login = ({ currentTheme, t }) => {
               error={!!formErrors.email}
               helperText={formErrors.email}
             />
-            <TextField
-              fullWidth
-              label={t("password")}
-              type="password"
-              margin="normal"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={!!formErrors.password}
-              helperText={formErrors.password}
-            />
+            <FormControl sx={{ mb: 1, mt: 2, width: '100%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">{t("password")}</InputLabel>
+              <OutlinedInput
+                fullWidth
+                label={t("password")}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                error={!!formErrors.password}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword ? 'hide the password' : 'display the password'
+                      }
+                      onClick={handleShowPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText sx={{ color: 'error.main' }}>
+                {formErrors.password || ""}
+              </FormHelperText>
+            </ FormControl>
 
             <Button
               fullWidth

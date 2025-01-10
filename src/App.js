@@ -26,6 +26,8 @@ import { getTheme } from './Theme';
 import { Footer } from './components/footer/Footer'
 import { ForgotPassword } from './components/auth/ForgotPassword';
 import { ForgotPasswordConfirmation } from './components/auth/ForgotPasswordConfirmation';
+import { ResetPassword } from './components/auth/ResetPassword';
+import { ResetPasswordConfirmation } from './components/auth/ResetPasswordConfirmation';
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -89,6 +91,8 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
             <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />}/>
+            <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />}/>
+            <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />}/>
           </Routes>
           <Footer />
         </Router>
