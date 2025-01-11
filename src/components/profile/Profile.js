@@ -120,52 +120,35 @@ export const Profile = ({ t }) => {
             </Grid>
           </Box>
 
-          <Grid container spacing={4} className="mt-4">
-            <Grid item xs={12} sm={12} md={6}>
-              <Card
-                sx={{
-                  padding: 4,
-                  backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
-                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
-                }}
-              >
-                <Typography variant="h6">Notifications</Typography>
-                {notifications.map((notification) => (
-                  <Alert
-                    key={notification.id}
-                    sx={{ mt: 2, backgroundColor: theme.palette.mode === 'dark' ? 'primary.main' : 'info.main', color: theme.palette.mode === 'dark' ? 'white' : 'black' }}
-                  >
-                    {notification.message}
-                  </Alert>
-                ))}
-              </Card>
+          <Box sx={{ flexGrow: 1, mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 12 }}>
+                <Card
+                  sx={{
+                    padding: 4,
+                    backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
+                    color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography sx={{ mb: 2 }} variant="h6">Quick Actions</Typography>
+                  <Grid sx={{ justifyContent: "center" }} container spacing={3}>
+                    {actions.map((action, index) => (
+                      <Grid item xs={12} md={4} key={index}>
+                        <Button
+                          variant={theme.palette.mode === 'dark' ? 'outlined' : 'contained'}
+                          sx={{ width: '100%' }}
+                          onClick={action.onClick}
+                        >
+                          {action.label}
+                        </Button>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Card>
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={12} md={6}>
-              <Card
-                sx={{
-                  padding: 4,
-                  backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
-                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
-                }}
-              >
-                <Typography variant="h6">Quick Actions</Typography>
-                <Grid container spacing={3}>
-                  {actions.map((action, index) => (
-                    <Grid item xs={12} md={4} key={index}>
-                      <Button
-                        variant={theme.palette.mode === 'dark' ? 'outlined' : 'contained'}
-                        sx={{ width: '100%' }}
-                        onClick={action.onClick}
-                      >
-                        {action.label}
-                      </Button>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Card>
-            </Grid>
-          </Grid>
+          </Box>
         </Container>
       </Container>
     </ThemeProvider>

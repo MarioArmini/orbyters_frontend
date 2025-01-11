@@ -22,6 +22,7 @@ import { ResetPassword } from './components/auth/ResetPassword';
 import { ResetPasswordConfirmation } from './components/auth/ResetPasswordConfirmation';
 import { Navbar } from './components/shared/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Chatbot } from './components/chatbot/Chatbot';
 
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
                 <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
                 <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
                 <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
               </Routes>
             </Box>
 
