@@ -1,24 +1,23 @@
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import {
-  Button,
-  Box,
-  Typography,
-  Container,
-  AppBar,
-  Toolbar,
-  Paper,
-  Avatar,
-  useTheme,
-  CircularProgress
-} from "@mui/material";
-import { useAuth } from "../../context/AuthContext";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+  Container, Card, Typography, Avatar, Button, CircularProgress, Alert, Box, useTheme
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getTheme } from '../../Theme';
+import Grid from '@mui/material/Grid2';
 
-export const Profile = () => {
-  const { user, logout, loading, fetchUser } = useAuth();
-  const theme = useTheme();
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+export const Profile = ({ t }) => {
+  const { user, logout, fetchUser } = useAuth();
   const navigate = useNavigate();
   const [initialLoading, setInitialLoading] = useState(true);
+  const theme = useTheme();
+  const muiTheme = createTheme(theme);
 
   useEffect(() => {
     const initialize = async () => {
@@ -27,8 +26,8 @@ export const Profile = () => {
           await fetchUser();
         }
       } catch (error) {
-        console.error("Error fetching user in Profile:", error);
-        navigate("/login");
+        console.error('Error fetching user in Profile:', error);
+        navigate('/login');
       } finally {
         setInitialLoading(false);
       }
@@ -39,112 +38,136 @@ export const Profile = () => {
 
   if (initialLoading) {
     return (
-      <Box
-        sx={{
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: theme.palette.background.default,
-        }}
+      <Container
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}
       >
         <CircularProgress />
-        <Typography sx={{ mt: 2 }}>Loading your profile...</Typography>
-      </Box>
+        <Typography className="mt-2">{t('Loading your profile...')}</Typography>
+      </Container>
     );
   }
 
   if (!user) {
-    console.log('bnastado')
     return <Navigate to="/login" />;
   }
 
+  const usageData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        label: 'Projects Completed',
+        data: [5, 10, 8, 15, 12, 20],
+        backgroundColor: theme.palette.secondary.main,
+      },
+    ],
+  };
+
+  const notifications = [
+    { id: 1, message: 'New project created successfully!' },
+    { id: 2, message: 'Your subscription will expire in 5 days.' },
+    { id: 3, message: 'AI Analysis for Project X completed.' },
+  ];
+
+  const actions = [
+    { label: 'Create New Project', onClick: () => alert('Create project') },
+    { label: 'Manage Integrations', onClick: () => alert('Manage integrations') },
+    { label: 'Upgrade Plan', onClick: () => alert('Upgrade plan') },
+  ];
+
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-      }}
-    >
-      <AppBar position="static" sx={{ backgroundColor: theme.palette.primary.main }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, color: theme.palette.text.primary }}>
-            User Profile
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
+    <ThemeProvider theme={muiTheme}>
       <Container
-        maxWidth="md"
-        sx={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        maxWidth="xl"
+        sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', mt: 5 }}
       >
-        <Paper
-          elevation={6}
-          sx={{
-            width: "100%",
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-          }}
-        >
-          <Avatar
-            sx={{
-              width: 100,
-              height: 100,
-              mb: 3,
-              backgroundColor: theme.palette.background.default,
-              fontSize: "2rem",
-              color: "text.accents"
-            }}
-          >
-            {user.name[0]}
-          </Avatar>
+        <Container sx={{ paddingY: 4 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    padding: 4,
+                    backgroundColor: theme.palette.background.default,
+                    color: theme.palette.text.primary,
+                  }}
+                >
+                  <Avatar
+                    src={`https://ui-avatars.com/api/?name=${user.name}`}
+                    alt={`${user.name} ${user.surname}`}
+                    sx={{ width: 100, height: 100, mx: 'auto', mb: 3 }}
+                  />
+                  <Typography variant="h6">{`${user.name} ${user.surname}`}</Typography>
+                  <Typography>{user.email}</Typography>
+                  <Typography>
+                    Roles: {user.roles.map((role) => role.Name).join(', ') || 'No roles assigned'}
+                  </Typography>
+                </Card>
+              </Grid>
 
-          <Typography variant="h4" gutterBottom>
-            {user.name} {user.surname}
-          </Typography>
-
-          <Box sx={{ width: "100%", mt: 3 }}>
-            <Typography variant="subtitle1" color="text.accents">
-              Email:
-            </Typography>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              {user.email}
-            </Typography>
-
-            <Typography variant="subtitle1" color="text.accents" sx={{ mt: 2 }}>
-              Roles:
-            </Typography>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              {user.roles.map((role) => role.Name).join(", ") || "No roles assigned"}
-            </Typography>
+              <Grid size={{ xs: 12, md: 8 }}>
+                <Card
+                  sx={{
+                    padding: 4,
+                    backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
+                    color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                  }}
+                >
+                  <Typography variant="h6">Usage Statistics</Typography>
+                  <Bar data={usageData} />
+                </Card>
+              </Grid>
+            </Grid>
           </Box>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              logout();
-              navigate("/");
-            }}
-            sx={{ mt: 4, color: theme.palette.text.primary }}
-          >
-            Logout
-          </Button>
-        </Paper>
+          <Grid container spacing={4} className="mt-4">
+            <Grid item xs={12} sm={12} md={6}>
+              <Card
+                sx={{
+                  padding: 4,
+                  backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
+                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                }}
+              >
+                <Typography variant="h6">Notifications</Typography>
+                {notifications.map((notification) => (
+                  <Alert
+                    key={notification.id}
+                    sx={{ mt: 2, backgroundColor: theme.palette.mode === 'dark' ? 'primary.main' : 'info.main', color: theme.palette.mode === 'dark' ? 'white' : 'black' }}
+                  >
+                    {notification.message}
+                  </Alert>
+                ))}
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={6}>
+              <Card
+                sx={{
+                  padding: 4,
+                  backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
+                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                }}
+              >
+                <Typography variant="h6">Quick Actions</Typography>
+                <Grid container spacing={3}>
+                  {actions.map((action, index) => (
+                    <Grid item xs={12} md={4} key={index}>
+                      <Button
+                        variant={theme.palette.mode === 'dark' ? 'outlined' : 'contained'}
+                        sx={{ width: '100%' }}
+                        onClick={action.onClick}
+                      >
+                        {action.label}
+                      </Button>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
       </Container>
-    </Box>
+    </ThemeProvider>
   );
 };

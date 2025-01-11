@@ -1,33 +1,28 @@
 import logoDark from './logo_dark.png';
-import logoLight from './logo_light.png'
+import logoLight from './logo_light.png';
 import './App.css';
 import {
-  Typography,
-  AppBar,
-  Toolbar,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  CssBaseline,
   Box,
-  IconButton
 } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
 import { Profile } from "./components/profile/Profile";
-import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import './i18n/config'
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import './i18n/config';
 import { getTheme } from './Theme';
-import { Footer } from './components/footer/Footer'
+import { Footer } from './components/footer/Footer';
 import { ForgotPassword } from './components/auth/ForgotPassword';
 import { ForgotPasswordConfirmation } from './components/auth/ForgotPasswordConfirmation';
 import { ResetPassword } from './components/auth/ResetPassword';
 import { ResetPasswordConfirmation } from './components/auth/ResetPasswordConfirmation';
+import { Navbar } from './components/shared/Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -54,47 +49,43 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <Router>
-          <AppBar position="fixed">
-            <Toolbar>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-              <Link to="/" style={{ textDecoration: 'none' }}>
-                <img
-                  src={themeMode === 'dark' ? logoDark : logoLight}
-                  alt="Logo"
-                  style={{ width: 50, height: 50, objectFit: 'contain', display: 'block' }}
-                />
-                </Link>
-              </Box>
-              <Box sx={{ flexGrow: 1 }} />
-              <FormControl size="small">
-                <InputLabel>{t("language")}</InputLabel>
-                <Select
-                  value={i18n.language}
-                  onChange={changeLanguage}
-                  label={t("language")}
-                >
-                  <MenuItem value="en">English</MenuItem>
-                  <MenuItem value="it">Italiano</MenuItem>
-                </Select>
-              </FormControl>
-              <Box sx={{ ml: 3, display: "flex", alignItems: "center", gap: 2 }}>
-                <IconButton onClick={toggleTheme} color="inherit">
-                  {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
-                </IconButton>
-              </Box>
-            </Toolbar>
-          </AppBar>
-          <Routes>
-            <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
-            <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
-            <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />}/>
-            <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />}/>
-            <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />}/>
-          </Routes>
-          <Footer />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100vh'
+            }}
+          >
+            <Navbar
+              themeMode={themeMode}
+              toggleTheme={toggleTheme}
+              t={t}
+              changeLanguage={changeLanguage}
+              language={i18n.language}
+            />
+
+            <Box
+              component="main"
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <Routes>
+                <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
+                <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
+                <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
+                <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
+                <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
+              </Routes>
+            </Box>
+
+            <Footer />
+          </Box>
         </Router>
       </AuthProvider>
     </ThemeProvider>

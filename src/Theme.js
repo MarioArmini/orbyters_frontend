@@ -10,7 +10,7 @@ export const getTheme = (themeMode) =>
                         main: "#06303E",
                     },
                     secondary: {
-                        main: "#06303E",
+                        main: "#00bcd4",
                     },
                     background: {
                         default: "#06303E",
