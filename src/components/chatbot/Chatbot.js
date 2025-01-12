@@ -1,24 +1,69 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, Typography, Paper, Container, List, ListItem, ListItemText, Divider } from "@mui/material";
+import { Box, TextField, Button, Typography, Paper, Container, List, ListItem, ListItemText, Divider, CircularProgress } from "@mui/material";
+import { useChat } from '../../context/ChatbotContext';
+import { SendTextDto } from "../../dtos/chatBot/sendTextDto";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export const Chatbot = ({ t }) => {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
   const [typingMessage, setTypingMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const { user, fetchUser } = useAuth();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const { sendText } = useChat();
+  const [formData, setFormData] = useState({
+    inputs: ""
+  });
+  const navigate = useNavigate();
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        if (!user) {
+          await fetchUser();
+        }
+      } catch (error) {
+        console.error('Error fetching user in Profile:', error);
+        navigate('/login');
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    initialize();
+  }, [fetchUser, navigate, user]);
+
+  if (initialLoading) {
+    return (
+      <Container
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}
+      >
+        <CircularProgress />
+        <Typography className="mt-2">{t('Loading...')}</Typography>
+      </Container>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  const handleSend = async () => {
+    const input = formData.inputs;
+
+    if (!input || !input.trim()) return;
 
     setMessages((prev) => [...prev, { type: "user", text: input }]);
 
-    const botResponse = `Hai detto: "${input}"`;
+    const sendTextDto = SendTextDto({ inputs: input });
+    const botResponse = await sendText(sendTextDto);
     setIsTyping(true);
 
     setMessages((prev) => [...prev, { type: "bot", text: "" }]);
-    simulateTyping(botResponse);
+    simulateTyping(botResponse.generated_text);
 
-    setInput("");
+    setFormData({ inputs: "" });
   };
 
   const handleKeyPress = (e) => {
@@ -43,11 +88,11 @@ export const Chatbot = ({ t }) => {
         });
         setTypingMessage("");
       }
-    }, 50); // typing speed
+    }, 25); // typing speed
   };
 
   return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", mt: 5 }}>
+    <Container maxWidth="xl" sx={{ height: "100vh", display: "flex", flexDirection: "column", mt: 5 }}>
       <Container maxWidth="md" sx={{ flex: 1, display: "flex", flexDirection: "column", py: 4 }}>
         <Paper elevation={3} sx={{ flex: 1, display: "flex", flexDirection: "column", p: 2, overflow: "hidden" }}>
           <Typography variant="h5" gutterBottom>
@@ -94,8 +139,8 @@ export const Chatbot = ({ t }) => {
               fullWidth
               variant="outlined"
               placeholder={t("typeYourMessage")}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={formData.inputs}
+              onChange={(e) => setFormData({ ...formData, inputs: e.target.value })}
               onKeyUp={handleKeyPress}
               sx={{ mr: 2 }}
             />
@@ -105,6 +150,6 @@ export const Chatbot = ({ t }) => {
           </Box>
         </Paper>
       </Container>
-    </Box>
+    </Container>
   );
 };

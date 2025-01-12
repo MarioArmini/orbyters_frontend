@@ -23,6 +23,7 @@ import { ResetPasswordConfirmation } from './components/auth/ResetPasswordConfir
 import { Navbar } from './components/shared/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Chatbot } from './components/chatbot/Chatbot';
+import { ChatbotProvider } from './context/ChatbotContext';
 
 
 function App() {
@@ -49,46 +50,47 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <Router>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh'
-            }}
-          >
-            <Navbar
-              themeMode={themeMode}
-              toggleTheme={toggleTheme}
-              t={t}
-              changeLanguage={changeLanguage}
-              language={i18n.language}
-            />
-
+        <ChatbotProvider>
+          <Router>
             <Box
-              component="main"
               sx={{
-                flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
+                minHeight: '100vh'
               }}
             >
-              <Routes>
-                <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
-                <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
-                <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
-                <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
-                <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
-                <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
-                <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
-                <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
-              </Routes>
-            </Box>
+              <Navbar
+                themeMode={themeMode}
+                toggleTheme={toggleTheme}
+                t={t}
+                changeLanguage={changeLanguage}
+                language={i18n.language}
+              />
 
-            <Footer />
-          </Box>
-        </Router>
+              <Box
+                component="main"
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Routes>
+                  <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
+                  <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
+                  <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
+                  <Route path="/" element={<Navigate to="/login" />} />
+                  <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
+                  <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                  <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
+                  <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                  <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
+                </Routes>
+              </Box>
+              <Footer />
+            </Box>
+          </Router>
+        </ChatbotProvider>
       </AuthProvider>
     </ThemeProvider>
   );
