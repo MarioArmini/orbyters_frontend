@@ -6,9 +6,18 @@ import {
     useTheme,
 } from "@mui/material";
 import React from "react";
+import { useLocation } from 'react-router-dom';
+
 
 export const Footer = () => {
     const theme = useTheme();
+    const location = useLocation();
+
+    const isChatbotRoute = location.pathname.includes('/chatbot');
+  
+    if (isChatbotRoute) {
+      return null;
+    }
 
     return (
         <Paper
@@ -18,6 +27,7 @@ export const Footer = () => {
                 color: theme.palette.text.footerText,
                 p: 4,
                 mt: 'auto',
+                display: 'flex',
                 '@media (max-width:600px)': {
                     padding: 2,
                 },

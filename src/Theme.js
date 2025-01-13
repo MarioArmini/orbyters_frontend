@@ -1,4 +1,6 @@
 import { createTheme } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 export const getTheme = (themeMode) =>
     createTheme({
@@ -99,5 +101,28 @@ export const getTheme = (themeMode) =>
                     },
                 },
             },
+            MuiCssBaseline: {
+                styleOverrides: {
+                    html: {
+                        scrollBehavior: 'smooth',
+                    },
+                    '*::-webkit-scrollbar': {
+                        width: '8px',
+                    },
+                    '*::-webkit-scrollbar-track': {
+                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5',
+                    },
+                    '*::-webkit-scrollbar-thumb': {
+                        backgroundColor: themeMode === 'dark' ? '#00bcd4' : '#1976d2',
+                        borderRadius: '4px',
+                    },
+                    '*::-webkit-scrollbar-thumb:hover': {
+                        backgroundColor: themeMode === 'dark' ? '#00acc1' : '#1565c0',
+                    },
+                    'body': {
+                        scrollbarColor: themeMode === 'dark' ? '#00bcd4 #1e1e1e' : '#1976d2 #f5f5f5',
+                    },
+                },
+            }
         },
     });
