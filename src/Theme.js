@@ -110,7 +110,7 @@ export const getTheme = (themeMode) =>
                         width: '8px',
                     },
                     '*::-webkit-scrollbar-track': {
-                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5',
+                        backgroundColor: themeMode === 'dark' ? '#06303E' : '#f5f5f5',
                     },
                     '*::-webkit-scrollbar-thumb': {
                         backgroundColor: themeMode === 'dark' ? '#00bcd4' : '#1976d2',

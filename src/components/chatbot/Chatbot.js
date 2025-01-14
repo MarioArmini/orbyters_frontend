@@ -7,8 +7,6 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 export const Chatbot = ({ t }) => {
   const [messages, setMessages] = useState([]);
-  const [typingMessage, setTypingMessage] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const { user, fetchUser } = useAuth();
   const [initialLoading, setInitialLoading] = useState(true);
   const { sendText } = useChat();
@@ -58,10 +56,15 @@ export const Chatbot = ({ t }) => {
 
     const sendTextDto = SendTextDto({ inputs: input });
     const botResponse = await sendText(sendTextDto);
-    setIsTyping(true);
 
-    setMessages((prev) => [...prev, { type: "bot", text: "" }]);
-    simulateTyping(botResponse.generated_text);
+    setMessages((prev) => {
+      const newMessages = [...prev, { type: "bot", text: "", isTyping: true }];
+      const messageIndex = newMessages.length - 1;
+
+      simulateTyping(botResponse.generated_text, messageIndex);
+
+      return newMessages
+    });
 
     setFormData({ inputs: "" });
   };
@@ -72,33 +75,38 @@ export const Chatbot = ({ t }) => {
     }
   };
 
-  const simulateTyping = (text) => {
+  const simulateTyping = (text, messageIndex) => {
     const words = text.split(' ');
     let wordIndex = 0;
     let letterIndex = 0;
     let displayedWord = '';
-    
+
     const interval = setInterval(() => {
       if (wordIndex < words.length) {
         const currentWord = words[wordIndex];
-      
+
         if (letterIndex < currentWord.length) {
           displayedWord += currentWord[letterIndex];
-          setTypingMessage(displayedWord);
           letterIndex++;
+
+          setMessages((prev) =>
+            prev.map((msg, index) =>
+              index === messageIndex ? { ...msg, text: displayedWord } : msg
+            )
+          );
         } else {
           displayedWord += ' ';
-          setTypingMessage(displayedWord);
           wordIndex++;
           letterIndex = 0;
         }
       } else {
         clearInterval(interval);
-        setIsTyping(false);
-        
-        setMessages((prev) => [...prev, { type: "bot", text: text }]);
-        
-        setTypingMessage("");
+
+        setMessages((prev) =>
+          prev.map((msg, index) =>
+            index === messageIndex ? { ...msg, text, isTyping: false } : msg
+          )
+        );
       }
     }, 10);
   };
@@ -149,22 +157,25 @@ export const Chatbot = ({ t }) => {
                     <ListItem sx={{ justifyContent: "flex-start" }}>
                       <ListItemText
                         primary={
-                          isTyping && messages[messages.length - 1].type === "bot"
-                            ? typingMessage
-                            : messages[messages.length - 1].text
+                          <Typography
+                            component="div"
+                            sx={{
+                              backgroundColor: "secondary.light",
+                              borderRadius: 2,
+                              padding: 1,
+                              maxWidth: "60%",
+                              display: "inline-block",
+                              wordWrap: "break-word",
+                              whiteSpace: "pre-wrap",
+                            }}
+                            dangerouslySetInnerHTML={{ __html: msg.text }}
+                          />
                         }
-                        sx={{
-                          backgroundColor: "secondary.light",
-                          borderRadius: 2,
-                          padding: 1,
-                          maxWidth: "60%",
-                          display: "inline-block",
-                        }}
                       />
                     </ListItem>
                   )}
 
-                  {index < messages.length - 1 && <Divider />}
+                  {index < messages.length - 1 && <Divider sx={{ borderColor: "" }} />}
                 </React.Fragment>
               ))}
             </List>
