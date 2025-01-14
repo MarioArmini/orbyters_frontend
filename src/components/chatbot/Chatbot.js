@@ -73,22 +73,34 @@ export const Chatbot = ({ t }) => {
   };
 
   const simulateTyping = (text) => {
-    let index = 0;
+    const words = text.split(' ');
+    let wordIndex = 0;
+    let letterIndex = 0;
+    let displayedWord = '';
+    
     const interval = setInterval(() => {
-      if (index < text.length) {
-        setTypingMessage((prev) => prev + text[index]);
-        index++;
+      if (wordIndex < words.length) {
+        const currentWord = words[wordIndex];
+      
+        if (letterIndex < currentWord.length) {
+          displayedWord += currentWord[letterIndex];
+          setTypingMessage(displayedWord);
+          letterIndex++;
+        } else {
+          displayedWord += ' ';
+          setTypingMessage(displayedWord);
+          wordIndex++;
+          letterIndex = 0;
+        }
       } else {
         clearInterval(interval);
         setIsTyping(false);
-        setMessages((prev) => {
-          const updatedMessages = [...prev];
-          updatedMessages[updatedMessages.length - 1].text = text;
-          return updatedMessages;
-        });
+        
+        setMessages((prev) => [...prev, { type: "bot", text: text }]);
+        
         setTypingMessage("");
       }
-    }, 25); // typing speed
+    }, 10);
   };
 
   return (
@@ -114,20 +126,44 @@ export const Chatbot = ({ t }) => {
             <List>
               {messages.map((msg, index) => (
                 <React.Fragment key={index}>
-                  <ListItem alignItems={msg.type === "user" ? "flex-end" : "flex-start"}>
-                    <ListItemText
-                      primary={
-                        index === messages.length - 1 && isTyping && msg.type === "bot"
-                          ? typingMessage
-                          : msg.text
-                      }
-                      sx={{
-                        textAlign: msg.type === "user" ? "right" : "left",
-                        color: msg.type === "user" ? "primary.main" : "text.primary",
-                        whiteSpace: "pre-wrap",
-                      }}
-                    />
-                  </ListItem>
+                  {/* QUESTION */}
+                  {msg.type === "user" && (
+                    <ListItem sx={{ justifyContent: "flex-end" }}>
+                      <Box
+                        sx={{
+                          backgroundColor: "primary.light",
+                          borderRadius: 2,
+                          padding: 1,
+                          maxWidth: "60%",
+                          display: "inline-block",
+                          textAlign: "right",
+                        }}
+                      >
+                        <Typography>{msg.text}</Typography>
+                      </Box>
+                    </ListItem>
+                  )}
+
+                  {/* ANSWER */}
+                  {msg.type === "bot" && (
+                    <ListItem sx={{ justifyContent: "flex-start" }}>
+                      <ListItemText
+                        primary={
+                          isTyping && messages[messages.length - 1].type === "bot"
+                            ? typingMessage
+                            : messages[messages.length - 1].text
+                        }
+                        sx={{
+                          backgroundColor: "secondary.light",
+                          borderRadius: 2,
+                          padding: 1,
+                          maxWidth: "60%",
+                          display: "inline-block",
+                        }}
+                      />
+                    </ListItem>
+                  )}
+
                   {index < messages.length - 1 && <Divider />}
                 </React.Fragment>
               ))}
