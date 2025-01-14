@@ -87,7 +87,7 @@ export const SignUp = ({ currentTheme, t }) => {
     });
 
     return (
-        <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Box sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", mt: 5 }}>
             <Container maxWidth="md">
                 <Paper
                     elevation={6}
@@ -105,8 +105,7 @@ export const SignUp = ({ currentTheme, t }) => {
                     <Box
                         sx={{
                             flex: 1,
-                            backgroundColor: currentTheme === "dark" ? "#333" : "#f5f5f5",
-                            color: currentTheme === "dark" ? "#fff" : "#000",
+                            color: "text.primary",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",

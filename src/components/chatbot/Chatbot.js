@@ -4,11 +4,13 @@ import { useChat } from '../../context/ChatbotContext';
 import { SendTextDto } from "../../dtos/chatBot/sendTextDto";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, Navigate } from "react-router-dom";
+import SendIcon from '@mui/icons-material/Send';
 
 export const Chatbot = ({ t }) => {
   const [messages, setMessages] = useState([]);
   const { user, fetchUser } = useAuth();
   const [initialLoading, setInitialLoading] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
   const { sendText } = useChat();
   const [formData, setFormData] = useState({
     inputs: ""
@@ -48,6 +50,8 @@ export const Chatbot = ({ t }) => {
   }
 
   const handleSend = async () => {
+    setIsTyping(true);
+
     const input = formData.inputs;
 
     if (!input || !input.trim()) return;
@@ -107,6 +111,7 @@ export const Chatbot = ({ t }) => {
             index === messageIndex ? { ...msg, text, isTyping: false } : msg
           )
         );
+        setIsTyping(false);
       }
     }, 10);
   };
@@ -160,7 +165,8 @@ export const Chatbot = ({ t }) => {
                           <Typography
                             component="div"
                             sx={{
-                              backgroundColor: "secondary.light",
+                              backgroundColor: "secondary.main",
+                              color: "text.chatColor",
                               borderRadius: 2,
                               padding: 1,
                               maxWidth: "60%",
@@ -191,8 +197,12 @@ export const Chatbot = ({ t }) => {
               onKeyUp={handleKeyPress}
               sx={{ mr: 2 }}
             />
-            <Button variant="contained" color="primary" onClick={handleSend}>
-              {t("send")}
+            <Button disabled={isTyping} variant="contained" color="primary" onClick={handleSend}>
+              {isTyping ? (
+                <CircularProgress size={24} sx={{ color: "secondary.main" }} />
+              ) : (
+                <SendIcon></SendIcon>
+              )}
             </Button>
           </Box>
         </Paper>

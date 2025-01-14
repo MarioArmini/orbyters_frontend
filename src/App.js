@@ -1,16 +1,14 @@
-import logoDark from './logo_dark.png';
-import logoLight from './logo_light.png';
 import './App.css';
 import {
   CssBaseline,
   Box,
 } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
 import { Profile } from "./components/profile/Profile";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import './i18n/config';
@@ -24,7 +22,7 @@ import { Navbar } from './components/shared/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Chatbot } from './components/chatbot/Chatbot';
 import { ChatbotProvider } from './context/ChatbotContext';
-
+import { MainComponent } from './components/MainComponent';
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -79,7 +77,7 @@ function App() {
                   <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
                   <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
                   <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
-                  <Route path="/" element={<Navigate to="/login" />} />
+                  <Route path="/" element={<MainComponent currentTheme={themeMode} t={t} />} />
                   <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
                   <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
                   <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />

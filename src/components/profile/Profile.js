@@ -7,7 +7,6 @@ import {
   Container, Card, Typography, Avatar, Button, CircularProgress, Alert, Box, useTheme
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getTheme } from '../../Theme';
 import Grid from '@mui/material/Grid2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -57,7 +56,7 @@ export const Profile = ({ t }) => {
       {
         label: 'Projects Completed',
         data: [5, 10, 8, 15, 12, 20],
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.text.accents,
       },
     ],
   };
@@ -109,8 +108,8 @@ export const Profile = ({ t }) => {
                 <Card
                   sx={{
                     padding: 4,
-                    backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
-                    color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                    backgroundColor: "background.default",
+                    color: "text.primary",
                   }}
                 >
                   <Typography variant="h6">Usage Statistics</Typography>
@@ -126,8 +125,8 @@ export const Profile = ({ t }) => {
                 <Card
                   sx={{
                     padding: 4,
-                    backgroundColor: theme.palette.mode === 'dark' ? 'background.paper' : 'background.default',
-                    color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                    backgroundColor: "background.default",
+                    color: "text.primary",
                     textAlign: "center",
                   }}
                 >

@@ -80,7 +80,7 @@ export const Navbar = ({ themeMode, toggleTheme, t, changeLanguage, language }) 
           <Button
             variant="contained"
             color="secondary"
-            onClick={handleMenuClick}
+            onClick={user ? handleMenuClick : handleAuthClick}
           >
             {user ? <Avatar
               src={`https://ui-avatars.com/api/?name=${user.name}`}
