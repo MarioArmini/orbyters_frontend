@@ -197,6 +197,11 @@ export const Chatbot = ({ t }) => {
           </Box>
         </Paper>
       </Container>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 1 }}>
+        <Typography sx={{ fontSize: "12px" }}>
+          {t("chatbotFooterText")}
+        </Typography>
+      </Box>
     </Container>
   );
 };
