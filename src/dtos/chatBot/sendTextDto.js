@@ -1,3 +1,5 @@
-export const SendTextDto = ({ inputs }) => ({
-    inputs
+export const SendTextDto = ({ inputs, conversationId, userId }) => ({
+    inputs,
+    conversationId,
+    userId
 });

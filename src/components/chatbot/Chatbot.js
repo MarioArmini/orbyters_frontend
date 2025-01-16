@@ -13,7 +13,8 @@ export const Chatbot = ({ t }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { sendText } = useChat();
   const [formData, setFormData] = useState({
-    inputs: ""
+    inputs: "",
+    conversationId: null
   });
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ export const Chatbot = ({ t }) => {
     };
 
     initialize();
-  }, [fetchUser, navigate, user]);
+  }, [fetchUser, navigate, user, formData]);
 
   if (initialLoading) {
     return (
@@ -58,8 +59,11 @@ export const Chatbot = ({ t }) => {
 
     setMessages((prev) => [...prev, { type: "user", text: input }]);
 
-    const sendTextDto = SendTextDto({ inputs: input });
+    const sendTextDto = SendTextDto({ inputs: input, userId: user.id, conversationId: formData.conversationId });
     const botResponse = await sendText(sendTextDto);
+    const conversationId = botResponse.conversationId;
+
+    setFormData((prev) => ({ ...prev, conversationId: conversationId }));
 
     setMessages((prev) => {
       const newMessages = [...prev, { type: "bot", text: "", isTyping: true }];
@@ -70,7 +74,7 @@ export const Chatbot = ({ t }) => {
       return newMessages
     });
 
-    setFormData({ inputs: "" });
+    setFormData((previous) => ({ ...previous, inputs: "" }));
   };
 
   const handleKeyPress = (e) => {
@@ -199,7 +203,7 @@ export const Chatbot = ({ t }) => {
             />
             <Button disabled={isTyping} variant="contained" color="primary" onClick={handleSend}>
               {isTyping ? (
-                <CircularProgress size={24} sx={{ color: "secondary.main" }} />
+                <CircularProgress size={24} sx={{ color: "text.accents" }} />
               ) : (
                 <SendIcon></SendIcon>
               )}

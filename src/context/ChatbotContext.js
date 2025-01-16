@@ -8,13 +8,13 @@ export const ChatbotProvider = ({ children }) => {
     const { token } = useAuth();
 
     const sendText = async (sendTextDto) => {
-        const { inputs } = sendTextDto;
+        const { inputs, conversationId, userId } = sendTextDto;
         const response = await fetch(apiUrl + "/mistral/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`
              },
-            body: JSON.stringify({ inputs }),
+            body: JSON.stringify({ inputs, conversationId, userId }),
         });
 
         const data = await response.json();
