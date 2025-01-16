@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 
 
-export const CustomAnimatedButton = ({ text, StartIcon, EndIcon, backgroundColor, color }) => {
+export const CustomAnimatedButton = ({ text, StartIcon, EndIcon, backgroundColor, color, onclick }) => {
     return (
         <Button
             variant="contained"
@@ -31,7 +31,7 @@ export const CustomAnimatedButton = ({ text, StartIcon, EndIcon, backgroundColor
                     },
                 },
             }}
-            onClick={() => alert('Navigating to Documentation')}
+            onClick={onclick}
         >
             {/* Start Icon Animation */}
             <StartIcon

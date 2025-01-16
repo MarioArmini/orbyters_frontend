@@ -140,7 +140,7 @@ export const Login = ({ currentTheme, t }) => {
               variant="contained"
               color="primary"
               type="submit"
-              sx={{ mt: 2 }}
+              sx={{ mt: 2, borderRadius: 5 }}
             >
               {loading ? (
                 <CircularProgress size={24} sx={{ color: "white" }} />

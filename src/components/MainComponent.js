@@ -3,13 +3,11 @@ import {
     Container,
     Card,
     Typography,
-    Button,
     Box,
     ThemeProvider,
     createTheme,
     useTheme,
     Paper,
-    IconButton
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -17,12 +15,17 @@ import Carousel from 'react-material-ui-carousel';
 import { CustomAnimatedButton } from './shared/CustomAnimatedButton';
 import ArticleIcon from '@mui/icons-material/Article';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { alpha } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 
 export const MainComponent = ({ t }) => {
     const theme = useTheme();
     const muiTheme = createTheme();
+    const navigate = useNavigate();
+
+    const handleSignUpBtn = () => {
+        navigate("/signup");
+    };
 
     return (
         <ThemeProvider theme={muiTheme}>
@@ -90,7 +93,7 @@ export const MainComponent = ({ t }) => {
                                     <Typography variant="body1" mb={3}>
                                         {t("signUpBtnSubtitle")}
                                     </Typography>
-                                    <CustomAnimatedButton text={t("signUpBtnText")} StartIcon={AppRegistrationIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.cards.buttonColor1} color={theme.palette.text.primary}></CustomAnimatedButton>
+                                    <CustomAnimatedButton text={t("signUpBtnText")} StartIcon={AppRegistrationIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.cards.buttonColor1} color={theme.palette.text.primary} onclick={handleSignUpBtn}></CustomAnimatedButton>
                                 </Card>
                             </Grid>
                         </Grid>
