@@ -54,7 +54,8 @@ function App() {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '100vh'
+                minHeight: '100vh',
+                backgroundColor: theme.palette.background.gradient
               }}
             >
               <Navbar
@@ -70,7 +71,7 @@ function App() {
                 sx={{
                   flex: 1,
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <Routes>

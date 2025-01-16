@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { alpha, createTheme } from "@mui/material";
 
 export const getTheme = (themeMode) =>
     createTheme({
@@ -10,20 +10,30 @@ export const getTheme = (themeMode) =>
                         main: "#001831"
                     },
                     secondary: {
-                        main: "#4B2D00",
+                        main: "#ffffff",
                     },
                     background: {
                         default: "#001831",
                         paper: "#001831",
-                        footer: "#001831"
+                        footer: "#001831",
+                        main: "rgb(2,0,6)",
+                        gradient: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,24,49,1) 3%, rgba(0,24,49,1) 12%)",
                     },
                     text: {
                         primary: "#ffffff",
                         secondary: "#001831",
                         footerText: "#ffffff",
-                        accents: "#AB6600",
-                        chatColor: "ffffff",
+                        accents: "#D16014",
+                        accents2: "#A53860",
+                        chatColor: "#001831",
                     },
+                    cards: {
+                        background1: alpha("#D16014", 0.4),
+                        background2: alpha("#607466", 0.4),
+                        background3: alpha("#71A9F7", 0.8),
+                        background4: alpha("#875C74", 0.8),
+                        buttonColor1: alpha("#23CE6B", 0.4)
+                    }
                 }
                 : {
                     primary: {
@@ -44,6 +54,13 @@ export const getTheme = (themeMode) =>
                         accents: "#001831",
                         chatColor: "#ffffff",
                     },
+                    cards: {
+                        background1: alpha("#D16014", 0.4),
+                        background2: alpha("#23CE6B", 0.4),
+                        background3: alpha("#71A9F7", 0.4),
+                        background4: alpha("#875C74", 0.4),
+                        buttonColor1: alpha("#23CE6B", 0.8)
+                    }
                 }),
         },
         typography: {
@@ -54,13 +71,13 @@ export const getTheme = (themeMode) =>
                 styleOverrides: {
                     root: {
                         "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#AB6600" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#AB6600" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#AB6600" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
                         },
                     },
                     input: {
@@ -71,12 +88,12 @@ export const getTheme = (themeMode) =>
             MuiInputLabel: {
                 styleOverrides: {
                     root: {
-                        color: themeMode === "dark" ? "#AB6600" : "#001831",
+                        color: themeMode === "dark" ? "#ffffff" : "#001831",
                         "&.Mui-focused": {
-                            color: themeMode === "dark" ? "#AB6600" : "#001831",
+                            color: themeMode === "dark" ? "#ffffff" : "#001831",
                         },
                         "&.MuiFormLabel-filled": {
-                            color: themeMode === "dark" ? "#AB6600" : "#001831",
+                            color: themeMode === "dark" ? "#ffffff" : "#001831",
                         },
                     },
                 },
@@ -84,7 +101,7 @@ export const getTheme = (themeMode) =>
             MuiLink: {
                 styleOverrides: {
                     root: {
-                        color: themeMode === "dark" ? "#AB6600" : "#001831",
+                        color: themeMode === "dark" ? "#ffffff" : "#001831",
                         textDecoration: "none",
                         "&:hover": {
                             textDecoration: "underline",
@@ -112,17 +129,17 @@ export const getTheme = (themeMode) =>
                         width: '8px',
                     },
                     '*::-webkit-scrollbar-track': {
-                        backgroundColor: themeMode === 'dark' ? '#001831' : '#f5f5f5',
+                        backgroundColor: themeMode === 'dark' ? '#001831' : '#ffffff',
                     },
                     '*::-webkit-scrollbar-thumb': {
-                        backgroundColor: themeMode === 'dark' ? '#AB6600' : '#001831',
+                        backgroundColor: themeMode === 'dark' ? '#ffffff' : '#001831',
                         borderRadius: '4px',
                     },
                     '*::-webkit-scrollbar-thumb:hover': {
-                        backgroundColor: themeMode === 'dark' ? '#AB6600' : '#1565c0',
+                        backgroundColor: themeMode === 'dark' ? '#f5f5f5' : '#1565c0',
                     },
                     'body': {
-                        scrollbarColor: themeMode === 'dark' ? '#4B2D00 #1e1e1e' : '#1976d2 #f5f5f5',
+                        scrollbarColor: themeMode === 'dark' ? '#710627 #1e1e1e' : '#1976d2 #f5f5f5',
                     },
                 },
             }
