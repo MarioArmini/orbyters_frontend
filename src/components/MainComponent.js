@@ -40,6 +40,9 @@ export const MainComponent = ({ t }) => {
                                 <Typography fontSize={"2.5rem"}>
                                     {t("mainPageTitle")}
                                 </Typography>
+                                <Typography sx={{ mb: 3 }} fontSize={"1.5rem"}>
+                                    {t("mainPageSubTitle")}
+                                </Typography>
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

@@ -7,25 +7,25 @@ export const getTheme = (themeMode) =>
             ...(themeMode === "dark"
                 ? {
                     primary: {
-                        main: "#001831"
+                        main: "#181818"
                     },
                     secondary: {
                         main: "#ffffff",
                     },
                     background: {
-                        default: "#001831",
-                        paper: "#001831",
-                        footer: "#001831",
+                        default: "#181818",
+                        paper: "#181818",
+                        footer: "#181818",
                         main: "rgb(2,0,6)",
                         gradient: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,24,49,1) 3%, rgba(0,24,49,1) 12%)",
                     },
                     text: {
                         primary: "#ffffff",
-                        secondary: "#001831",
+                        secondary: "#181818",
                         footerText: "#ffffff",
                         accents: "#D16014",
                         accents2: "#A53860",
-                        chatColor: "#001831",
+                        chatColor: "#181818",
                     },
                     cards: {
                         background1: alpha("#D16014", 0.4),
@@ -40,7 +40,7 @@ export const getTheme = (themeMode) =>
                         main: "#ffffff",
                     },
                     secondary: {
-                        main: "#001831",
+                        main: "#181818",
                     },
                     background: {
                         default: "#ffffff",
@@ -48,10 +48,10 @@ export const getTheme = (themeMode) =>
                         footer: "#ffffff"
                     },
                     text: {
-                        primary: "#001831",
+                        primary: "#181818",
                         secondary: "#ffffff",
-                        footerText: "#001831",
-                        accents: "#001831",
+                        footerText: "#181818",
+                        accents: "#181818",
                         chatColor: "#ffffff",
                     },
                     cards: {
@@ -71,13 +71,13 @@ export const getTheme = (themeMode) =>
                 styleOverrides: {
                     root: {
                         "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#181818",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#181818",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                            borderColor: themeMode === "dark" ? "#ffffff" : "#001831",
+                            borderColor: themeMode === "dark" ? "#ffffff" : "#181818",
                         },
                     },
                     input: {
@@ -88,12 +88,12 @@ export const getTheme = (themeMode) =>
             MuiInputLabel: {
                 styleOverrides: {
                     root: {
-                        color: themeMode === "dark" ? "#ffffff" : "#001831",
+                        color: themeMode === "dark" ? "#ffffff" : "#181818",
                         "&.Mui-focused": {
-                            color: themeMode === "dark" ? "#ffffff" : "#001831",
+                            color: themeMode === "dark" ? "#ffffff" : "#181818",
                         },
                         "&.MuiFormLabel-filled": {
-                            color: themeMode === "dark" ? "#ffffff" : "#001831",
+                            color: themeMode === "dark" ? "#ffffff" : "#181818",
                         },
                     },
                 },
@@ -101,7 +101,7 @@ export const getTheme = (themeMode) =>
             MuiLink: {
                 styleOverrides: {
                     root: {
-                        color: themeMode === "dark" ? "#ffffff" : "#001831",
+                        color: themeMode === "dark" ? "#ffffff" : "#181818",
                         textDecoration: "none",
                         "&:hover": {
                             textDecoration: "underline",
@@ -113,7 +113,7 @@ export const getTheme = (themeMode) =>
                 styleOverrides: {
                     root: {
                         color: themeMode === "dark" ? "#ffffff" : "#000000",
-                        backgroundColor: themeMode === "dark" ? "#001831" : "#ffffff",
+                        backgroundColor: themeMode === "dark" ? "#181818" : "#ffffff",
                         "&:hover": {
                             backgroundColor: themeMode === "dark" ? "#002d40" : "#f0f0f0",
                         },
@@ -129,10 +129,10 @@ export const getTheme = (themeMode) =>
                         width: '8px',
                     },
                     '*::-webkit-scrollbar-track': {
-                        backgroundColor: themeMode === 'dark' ? '#001831' : '#ffffff',
+                        backgroundColor: themeMode === 'dark' ? '#181818' : '#ffffff',
                     },
                     '*::-webkit-scrollbar-thumb': {
-                        backgroundColor: themeMode === 'dark' ? '#ffffff' : '#001831',
+                        backgroundColor: themeMode === 'dark' ? '#ffffff' : '#181818',
                         borderRadius: '4px',
                     },
                     '*::-webkit-scrollbar-thumb:hover': {

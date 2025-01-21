@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #fff;
+            --border-color: #ccc;
+            --text-color: #333;
+            --bot-message-bg: #e0e0e0;
+            --user-message-bg: #f1f1f1;
+            --header-bg-color: #3f51b5;
+            --button-color: #3f51b5;
+            --button-disabled-color: #9e9e9e;
+            --input-border-color: #ccc;
+            --font-family: 'Roboto', sans-serif;
+        }
+
+        /* Bubble Button */
+        .chat-bubble-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--button-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+        .chat-bubble-button:hover {
+            background-color: #303f9f;
+        }
+
+        /* Chat Widget */
+        .chat-widget-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            max-height: 500px;
+            display: none;
+            /* Initially hidden */
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10000;
+            /* Higher than the bubble */
+        }
+
+        .chat-header {
+            background-color: var(--header-bg-color);
+            color: #fff;
+            padding: 10px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-message {
+            align-items: flex-end;
+        }
+
+        .bot-message {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--user-message-bg);
+            word-wrap: break-word;
+        }
+
+        .bot-message .message-bubble {
+            background-color: var(--bot-message-bg);
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background-color: #f5f5f5;
+            align-items: center;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 5px;
+            margin-right: 10px;
+            font-family: var(--font-family);
+        }
+
+        .input-container button {
+            background-color: var(--button-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--font-family);
+        }
+
+        .input-container button:disabled {
+            background-color: var(--button-disabled-color);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Bubble Button -->
+    <div class="chat-bubble-button" id="chat-bubble">
+        💬
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget-container" id="chat-widget">
+        <div class="chat-header">
+            Chatbot
+        </div>
+        <div class="chat-body" id="chat-body">
+        </div>
+        <div class="input-container">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBubble = document.getElementById('chat-bubble');
+        const chatWidget = document.getElementById('chat-widget');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatBody = document.getElementById('chat-body');
+
+        chatBubble.addEventListener('click', () => {
+            const isVisible = chatWidget.style.display === 'flex';
+            chatWidget.style.display = isVisible ? 'none' : 'flex';
+        });
+
+        const simulateTyping = (text, callback) => {
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'message';
+            botMessageDiv.classList.add('bot-message');
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            botMessageDiv.appendChild(messageBubble);
+
+            chatBody.appendChild(botMessageDiv);
+
+            const words = text.split(' ');
+            let wordIndex = 0;
+            let letterIndex = 0;
+            let displayedWord = '';
+
+            const interval = setInterval(() => {
+                if (wordIndex < words.length) {
+                    const currentWord = words[wordIndex];
+
+                    if (letterIndex < currentWord.length) {
+                        displayedWord += currentWord[letterIndex];
+                        letterIndex++;
+                        messageBubble.innerText = displayedWord;
+                    } else {
+                        displayedWord += ' ';
+                        wordIndex++;
+                        letterIndex = 0;
+                    }
+                } else {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, 50);
+        };
+
+        const handleSend = async () => {
+            const input = chatInput.value.trim();
+            if (!input) return;
+
+            chatInput.value = '';
+
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message';
+            userMessageDiv.classList.add('user-message');
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.innerText = input;
+            userMessageDiv.appendChild(messageBubble);
+            chatBody.appendChild(userMessageDiv);
+
+            simulateTyping('This is the bot response...', () => {
+                console.log('Typing simulation complete');
+            });
+        };
+
+
+        sendButton.addEventListener('click', handleSend);
+
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
