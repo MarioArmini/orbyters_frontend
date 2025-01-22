@@ -27,6 +27,10 @@ export const MainComponent = ({ t }) => {
         navigate("/signup");
     };
 
+    const handleDocBtn = () => {
+        navigate("/doc");
+    };
+
     return (
         <ThemeProvider theme={muiTheme}>
             <Container
@@ -120,7 +124,7 @@ export const MainComponent = ({ t }) => {
                                     <Typography variant="body1" mb={3}>
                                         {t("documentationSubtitle")}
                                     </Typography>
-                                    <CustomAnimatedButton text={t("documentationBtn")} StartIcon={ArticleIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.background.default} color={theme.palette.text.primary}></CustomAnimatedButton>
+                                    <CustomAnimatedButton text={t("documentationBtn")} StartIcon={ArticleIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.background.default} color={theme.palette.text.primary} onclick={handleDocBtn}></CustomAnimatedButton>
                                 </Card>
                             </Grid>
 
