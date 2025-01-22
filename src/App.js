@@ -23,6 +23,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Chatbot } from './components/chatbot/Chatbot';
 import { ChatbotProvider } from './context/ChatbotContext';
 import { MainComponent } from './components/MainComponent';
+import { Documentation } from './components/docs/DocumentationComponent';
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -84,6 +85,7 @@ function App() {
                   <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
                   <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
                   <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
+                  <Route path='/doc' element={<Documentation currentTheme={themeMode} t={t} />} />
                 </Routes>
               </Box>
               <Footer />

@@ -229,6 +229,28 @@
             });
         };
 
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                headerColor: params.get('headerColor') || '#3f51b5',
+                buttonColor: params.get('buttonColor') || '#3f51b5',
+                textColor: params.get('textColor') || '#333',
+                backgroundColor: params.get('backgroundColor') || '#fff',
+            };
+        }
+
+        // Apply custom styles
+        function applyCustomStyles(config) {
+            const root = document.documentElement;
+            root.style.setProperty('--header-bg-color', config.headerColor);
+            root.style.setProperty('--button-color', config.buttonColor);
+            root.style.setProperty('--text-color', config.textColor);
+            root.style.setProperty('--background-color', config.backgroundColor);
+        }
+
+        const config = getQueryParams();
+        applyCustomStyles(config);
+
 
         sendButton.addEventListener('click', handleSend);
 

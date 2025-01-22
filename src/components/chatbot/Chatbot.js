@@ -146,7 +146,7 @@ export const Chatbot = ({ t }) => {
     <Box sx={{ position: "relative", height: "100vh" }}>
       {/* Chatbot Widget */}
       <iframe
-        src="/ChatBotWidget.html"
+        src="/ChatBotWidget.html?headerColor=%23ff5722&buttonColor=%231e88e5&textColor=%23000000&backgroundColor=%23fafafa"
         title="Chatbot Widget"
         style={{
           position: "fixed",
@@ -155,7 +155,7 @@ export const Chatbot = ({ t }) => {
           width: "100%",
           height: "100%",
           border: "none",
-          zIndex: 9999,
+          zIndex: 1,
         }}
       />
 
@@ -267,7 +267,7 @@ export const Chatbot = ({ t }) => {
                   setFormData({ ...formData, inputs: e.target.value })
                 }
                 onKeyUp={handleKeyPress}
-                sx={{ mr: 2 }}
+                sx={{ mr: 2, zIndex: 2 }}
               />
               <Button
                 disabled={isTyping}
