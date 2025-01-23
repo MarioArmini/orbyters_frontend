@@ -26,24 +26,39 @@ export const Documentation = ({ t }) => {
     const [selectedSubsection, setSelectedSubsection] = useState(Object.keys(DocsTemplate[selectedSection])[0]);
     const theme = useTheme();
 
+    const isCode = (content) => {
+        return content.includes('\n');
+    }
+
     const renderContent = () => {
         const content = DocsTemplate[selectedSection][selectedSubsection];
 
-        if (content.includes('\n')) {
+        if (Array.isArray(content)) {
             return (
-                <SyntaxHighlighter
-                    language="javascript"
-                    style={materialDark}
-                    showLineNumbers
-                    wrapLines
-                >
-                    {content.trim()}
-                </SyntaxHighlighter>
+                <List>
+                    {content.map((item, index) => (
+                        <ListItem key={index}>
+                            <ListItemText primary={
+                                item.includes('\n') ? (
+                                    <SyntaxHighlighter
+                                        language="javascript"
+                                        style={materialDark}
+                                        showLineNumbers
+                                        wrapLines
+                                    >
+                                        {item.trim()}
+                                    </SyntaxHighlighter>
+                                ) : (
+                                    item
+                                )
+                            } />
+                        </ListItem>
+                    ))}
+                </List>
             );
         }
-
-        return <Typography>{content}</Typography>;
     };
+
 
     return (
         <Container

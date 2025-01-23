@@ -28,7 +28,7 @@ export const MainComponent = ({ t }) => {
     };
 
     const handleDocBtn = () => {
-        navigate("/doc");
+        window.open(`${window.location.origin}/doc`)
     };
 
     return (
@@ -100,7 +100,14 @@ export const MainComponent = ({ t }) => {
                                     <Typography variant="body1" mb={3}>
                                         {t("signUpBtnSubtitle")}
                                     </Typography>
-                                    <CustomAnimatedButton text={t("signUpBtnText")} StartIcon={AppRegistrationIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.cards.buttonColor1} color={theme.palette.text.primary} onclick={handleSignUpBtn}></CustomAnimatedButton>
+                                    <CustomAnimatedButton text={t("signUpBtnText")}
+                                        StartIcon={AppRegistrationIcon}
+                                        EndIcon={ArrowForwardIcon}
+                                        backgroundColor={theme.palette.cards.buttonColor1}
+                                        color={theme.palette.text.primary}
+                                        onclick={handleSignUpBtn}
+                                    >
+                                    </CustomAnimatedButton>
                                 </Card>
                             </Grid>
                         </Grid>
@@ -124,7 +131,14 @@ export const MainComponent = ({ t }) => {
                                     <Typography variant="body1" mb={3}>
                                         {t("documentationSubtitle")}
                                     </Typography>
-                                    <CustomAnimatedButton text={t("documentationBtn")} StartIcon={ArticleIcon} EndIcon={ArrowForwardIcon} backgroundColor={theme.palette.background.default} color={theme.palette.text.primary} onclick={handleDocBtn}></CustomAnimatedButton>
+                                    <CustomAnimatedButton text={t("documentationBtn")}
+                                        StartIcon={ArticleIcon}
+                                        EndIcon={ArrowForwardIcon}
+                                        backgroundColor={theme.palette.background.default}
+                                        color={theme.palette.text.primary}
+                                        onclick={handleDocBtn}
+                                    >
+                                    </CustomAnimatedButton>
                                 </Card>
                             </Grid>
 

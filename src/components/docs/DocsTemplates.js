@@ -1,28 +1,26 @@
 export const DocsTemplate = {
     "gettingStarted": {
-        "Introduction": "Welcome to the documentation!",
-        "Installation": "Run `npm install your-package-name` to install.",
-        "Quick Start": `
-import { ExampleComponent } from 'your-package-name';
-
-const App = () => (
-  <ExampleComponent />
-);
-
-export default App;
-`,
+        "docIntroduction": ["introductionText"],
     },
     "features": {
-        "Feature 1": "This is the description of feature 1.",
-        "Feature 2": `
-import { useFeature } from 'your-package-name';
-
-const result = useFeature('magic');
-console.log(result);
-`,
-    },
-    "advancedTopics": {
-        "Customization": "Learn how to customize your experience.",
-        "Performance": "Optimize the platform for better performance.",
-    },
+        "widgetFeature": [
+            "widgetText1",
+            `<iframe
+                src="/ChatBotWidget.html?headerColor=%23ff5722&buttonColor=%231e88e5&textColor=%23000000&backgroundColor=%23fafafa"
+                title="Chatbot Widget"
+                style={{
+                    position: "fixed",
+                    bottom: 10,
+                    right: 10,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    zIndex: 1,
+                }}
+/>`,  
+                "widgetText2", 
+                "\nheaderColor=%23{yourcolor}\nbuttonColor=%23{yourcolor}\ntextColor=%23{yourcolor}\nbackgroundColor=%23{yourcolor}",
+                "widgetText3"
+            ]
+    }
 };

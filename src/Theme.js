@@ -24,7 +24,6 @@ export const getTheme = (themeMode) =>
                         secondary: "#181818",
                         footerText: "#ffffff",
                         accents: "#D16014",
-                        accents2: "#A53860",
                         chatColor: "#181818",
                     },
                     cards: {
