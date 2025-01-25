@@ -146,7 +146,7 @@ export const Chatbot = ({ t }) => {
     <Box sx={{ position: "relative", height: "100vh" }}>
       {/* Chatbot Widget */}
       <iframe
-        src="/ChatBotWidget.html?headerColor=%23ff5722&buttonColor=%231e88e5&textColor=%23000000&backgroundColor=%23fafafa"
+        src="/ChatBotWidget.html"
         title="Chatbot Widget"
         style={{
           position: "fixed",
@@ -157,7 +157,24 @@ export const Chatbot = ({ t }) => {
           border: "none",
           zIndex: 1,
         }}
+        onLoad={(e) => {
+          const iframe = e.target.contentWindow;
+          iframe.postMessage(
+            {
+              type: "CHATBOT_CONFIG",
+              payload: {
+                headerColor: "#001831",
+                buttonColor: "#4caf50",
+                textColor: "#212121",
+                backgroundColor: "#ffffff",
+                buttonHover: "#ffffff",
+              },
+            },
+            "*"
+          );
+        }}
       />
+
 
       {/* Chat UI */}
       <Container

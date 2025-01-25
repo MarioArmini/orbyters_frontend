@@ -19,16 +19,12 @@ import { DocsTemplate } from './DocsTemplates';
 export const Documentation = ({ t }) => {
 
     if (!DocsTemplate || !Object.keys(DocsTemplate).length) {
-        return <div>No Documentation Available</div>;
+        return <div>{t("noDoc")}</div>;
     }
 
     const [selectedSection, setSelectedSection] = useState(Object.keys(DocsTemplate)[0]);
     const [selectedSubsection, setSelectedSubsection] = useState(Object.keys(DocsTemplate[selectedSection])[0]);
     const theme = useTheme();
-
-    const isCode = (content) => {
-        return content.includes('\n');
-    }
 
     const renderContent = () => {
         const content = DocsTemplate[selectedSection][selectedSubsection];
@@ -41,7 +37,7 @@ export const Documentation = ({ t }) => {
                             <ListItemText primary={
                                 item.includes('\n') ? (
                                     <SyntaxHighlighter
-                                        language="javascript"
+                                        language="jsx"
                                         style={materialDark}
                                         showLineNumbers
                                         wrapLines

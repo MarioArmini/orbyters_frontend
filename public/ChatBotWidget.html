@@ -8,13 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #fff;
+            --background-color: #ffffff;
             --border-color: #ccc;
-            --text-color: #333;
+            --text-color: #181818;
             --bot-message-bg: #e0e0e0;
             --user-message-bg: #f1f1f1;
-            --header-bg-color: #3f51b5;
-            --button-color: #3f51b5;
+            --header-bg-color: #181818;
+            --button-color: #23CE6B;
+            --button-hover: #303f9f;
             --button-disabled-color: #9e9e9e;
             --input-border-color: #ccc;
             --font-family: 'Roboto', sans-serif;
@@ -40,7 +41,7 @@
         }
 
         .chat-bubble-button:hover {
-            background-color: #303f9f;
+            background-color: var(--button-hover);
         }
 
         /* Chat Widget */
@@ -229,16 +230,6 @@
             });
         };
 
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                headerColor: params.get('headerColor') || '#3f51b5',
-                buttonColor: params.get('buttonColor') || '#3f51b5',
-                textColor: params.get('textColor') || '#333',
-                backgroundColor: params.get('backgroundColor') || '#fff',
-            };
-        }
-
         // Apply custom styles
         function applyCustomStyles(config) {
             const root = document.documentElement;
@@ -246,9 +237,24 @@
             root.style.setProperty('--button-color', config.buttonColor);
             root.style.setProperty('--text-color', config.textColor);
             root.style.setProperty('--background-color', config.backgroundColor);
+            root.style.setProperty('--button-hover', config.buttonHover);
         }
 
-        const config = getQueryParams();
+        const config = window.ChatbotConfig || {
+            headerColor: '#181818',
+            buttonColor: '#23CE6B',
+            textColor: '#181818',
+            backgroundColor: '#fff',
+            buttonHover: '#303f9f'
+        };
+
+        window.addEventListener("message", (event) => {
+            if (event.data && event.data.type === "CHATBOT_CONFIG") {
+                console.log("Received ChatbotConfig:", event.data.payload);
+                applyCustomStyles(event.data.payload);
+            }
+        });
+
         applyCustomStyles(config);
 
 
