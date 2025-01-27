@@ -27,11 +27,14 @@ export const getTheme = (themeMode) =>
                         chatColor: "#181818",
                     },
                     cards: {
-                        background1: alpha("#D16014", 0.4),
+                        background1: alpha("#E98A15", 0.8),
                         background2: alpha("#607466", 0.4),
                         background3: alpha("#71A9F7", 0.8),
                         background4: alpha("#875C74", 0.8),
                         buttonColor1: alpha("#23CE6B", 0.4)
+                    },
+                    subCards: {
+                        background1: alpha("#00A896", 0.6)
                     }
                 }
                 : {
@@ -54,11 +57,14 @@ export const getTheme = (themeMode) =>
                         chatColor: "#ffffff",
                     },
                     cards: {
-                        background1: alpha("#D16014", 0.4),
+                        background1: alpha("#E98A15", 0.4),
                         background2: alpha("#23CE6B", 0.4),
                         background3: alpha("#71A9F7", 0.4),
                         background4: alpha("#875C74", 0.4),
                         buttonColor1: alpha("#23CE6B", 0.8)
+                    },
+                    subCards: {
+                        background1: alpha("#00A896", 0.6)
                     }
                 }),
         },
