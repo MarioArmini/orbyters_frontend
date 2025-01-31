@@ -34,7 +34,8 @@ export const getTheme = (themeMode) =>
                         buttonColor1: alpha("#23CE6B", 0.4)
                     },
                     subCards: {
-                        background1: alpha("#00A896", 0.6)
+                        background1: alpha("#00A896", 0.6),
+                        text1: alpha("#ffffff", 1)
                     }
                 }
                 : {
@@ -64,7 +65,8 @@ export const getTheme = (themeMode) =>
                         buttonColor1: alpha("#23CE6B", 0.8)
                     },
                     subCards: {
-                        background1: alpha("#00A896", 0.6)
+                        background1: alpha("#00A896", 0.6),
+                        text1: alpha("#ffffff", 1)
                     }
                 }),
         },

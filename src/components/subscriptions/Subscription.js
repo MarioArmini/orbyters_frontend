@@ -1,35 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardActions, Typography, Button, Box, Container, useTheme } from '@mui/material';
-import { AccountBalance, Star, ShoppingCart } from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Grid from '@mui/material/Grid2';
+import { useSubscriptions } from "../../context/SubscriptionsContext";
+import { CustomAnimatedButton } from '../shared/CustomAnimatedButton';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 export const SubscriptionComponent = ({ t }) => {
 
     const theme = useTheme();
+    const { getAllSubscriptions } = useSubscriptions();
+    const [subscriptions, setSubscriptions] = useState([]);
 
-    const plans = [
-        {
-            title: t("basicPlanTitle"),
-            subtitle: t("basicPlanSubtitle"),
-            price: "$9.99",
-            icon: <AccountBalance />,
-            description: t("basicPlanDescription"),
-        },
-        {
-            title: t("premiumPlanTitle"),
-            subtitle: t("premiumPlanSubtitle"),
-            price: "$19.99",
-            icon: <Star />,
-            description: t("premiumPlanDescription"),
-        },
-        {
-            title: t("ultimatePlanTitle"),
-            subtitle: t("ultimatePlanSubtitle"),
-            price: "$29.99",
-            icon: <ShoppingCart />,
-            description: t("ultimatePlanDescription"),
-        },
-    ];
+    useEffect(() => {
+        const handleGetAll = async () => {
+            const responseSubscriptions = await getAllSubscriptions();
+            setSubscriptions(responseSubscriptions);
+        };
+    
+        handleGetAll();
+    }, [getAllSubscriptions]);
 
     return (
         <Container sx={{mt: 5}}>
@@ -40,30 +30,31 @@ export const SubscriptionComponent = ({ t }) => {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
                 <Grid container spacing={4} justifyContent="center">
-                    {plans.map((plan, index) => (
+                    {subscriptions.map((sub, index) => (
                         <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                             <Card elevation={6} sx={{ borderRadius: 5, backgroundColor: theme.palette.subCards.background1 }}>
                                 <CardContent sx={{ textAlign: 'center' }}>
                                     <Typography variant="h5" gutterBottom>
-                                        {plan.title}
+                                        {sub.title}
                                     </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary" sx={{ mb: 2 }}>
-                                        {plan.subtitle}
+                                    <Typography variant="subtitle1" sx={{ mb: 2, color: theme.palette.subCards.text1 }}>
+                                        {t(sub.description)}
                                     </Typography>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2 }}>
-                                        <Box sx={{ mr: 1 }}>{plan.icon}</Box>
+                                        <Box sx={{ mr: 1 }}>{sub.icon}</Box>
                                         <Typography variant="h6" color="primary">
-                                            {plan.price}
+                                            {sub.price} €
                                         </Typography>
                                     </Box>
-                                    <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                                        {plan.description}
-                                    </Typography>
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: 'center' }}>
-                                    <Button variant="contained" color="primary" size="large" fullWidth>
-                                        {t("subscribeBtn")}
-                                    </Button>
+                                <CustomAnimatedButton text={t("subscribeBtn")}
+                                        StartIcon={LibraryAddIcon}
+                                        EndIcon={ArrowForwardIcon}
+                                        backgroundColor={theme.palette.cards.buttonColor1}
+                                        color={theme.palette.text.primary}
+                                    >
+                                    </CustomAnimatedButton>
                                 </CardActions>
                             </Card>
                         </Grid>

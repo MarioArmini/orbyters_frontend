@@ -25,6 +25,7 @@ import { ChatbotProvider } from './context/ChatbotContext';
 import { MainComponent } from './components/MainComponent';
 import { Documentation } from './components/docs/DocumentationComponent';
 import { SubscriptionComponent } from './components/subscriptions/Subscription';
+import { SubscriptionsProvider } from './context/SubscriptionsContext';
 
 function App() {
   const storedThemeMode = localStorage.getItem('themeMode');
@@ -51,48 +52,50 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <ChatbotProvider>
-          <Router>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100vh',
-                backgroundColor: theme.palette.background.gradient
-              }}
-            >
-              <Navbar
-                themeMode={themeMode}
-                toggleTheme={toggleTheme}
-                t={t}
-                changeLanguage={changeLanguage}
-                language={i18n.language}
-              />
-
+          <SubscriptionsProvider>
+            <Router>
               <Box
-                component="main"
                 sx={{
-                  flex: 1,
                   display: 'flex',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
+                  minHeight: '100vh',
+                  backgroundColor: theme.palette.background.gradient
                 }}
               >
-                <Routes>
-                  <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
-                  <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
-                  <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
-                  <Route path="/" element={<MainComponent currentTheme={themeMode} t={t} />} />
-                  <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
-                  <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
-                  <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
-                  <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
-                  <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
-                  <Route path='/doc' element={<Documentation currentTheme={themeMode} t={t} />} />
-                  <Route path='/sub' element={<SubscriptionComponent currentTheme={themeMode} t={t} />} />
-                </Routes>
+                <Navbar
+                  themeMode={themeMode}
+                  toggleTheme={toggleTheme}
+                  t={t}
+                  changeLanguage={changeLanguage}
+                  language={i18n.language}
+                />
+
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
+                  <Routes>
+                    <Route path="/login" element={<Login currentTheme={themeMode} t={t} />} />
+                    <Route path="/signup" element={<SignUp currentTheme={themeMode} t={t} />} />
+                    <Route path="/profile" element={<Profile currentTheme={themeMode} t={t} />} />
+                    <Route path="/" element={<MainComponent currentTheme={themeMode} t={t} />} />
+                    <Route path="/forgot-password" element={<ForgotPassword currentTheme={themeMode} t={t} />} />
+                    <Route path='/forgot-password-confirmation' element={<ForgotPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                    <Route path='/reset-password' element={<ResetPassword currentTheme={themeMode} t={t} />} />
+                    <Route path='/reset-password-confirmation' element={<ResetPasswordConfirmation currentTheme={themeMode} t={t} />} />
+                    <Route path='/chatbot' element={<Chatbot currentTheme={themeMode} t={t} />} />
+                    <Route path='/doc' element={<Documentation currentTheme={themeMode} t={t} />} />
+                    <Route path='/sub' element={<SubscriptionComponent currentTheme={themeMode} t={t} />} />
+                  </Routes>
+                </Box>
+                <Footer />
               </Box>
-              <Footer />
-            </Box>
-          </Router>
+            </Router>
+          </SubscriptionsProvider>
         </ChatbotProvider>
       </AuthProvider>
     </ThemeProvider>
